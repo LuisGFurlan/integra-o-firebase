@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866346447616",
+    "project_id": "flutter-valida",
+    "storage_bucket": "flutter-valida.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866346447616:android:ce7d0de412cdbe75c239e5",
+        "android_client_info": {
+          "package_name": "com.example.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3FhYD-2J4rwB6lQBEbxvKvTgYriqSLKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
