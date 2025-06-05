@@ -1,16 +1,86 @@
-# firebase
+# 🔐 Projeto: Autenticação e Upload com Firebase no Flutter
 
-A new Flutter project.
+## 🎯 Objetivo Geral
 
-## Getting Started
+Desenvolver um aplicativo mobile com Flutter e Firebase para:
 
-This project is a starting point for a Flutter application.
+- Autenticação de usuários via e-mail e senha
+- Upload de imagem (câmera ou galeria)
+- Armazenamento da imagem no Firebase Storage
+- Salvamento do caminho da imagem no Cloud Firestore
+- Acesso controlado com tela protegida após login
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🖥️ Telas e Funcionalidades
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔑 Tela de Login
+
+- Campos: **E-mail**, **Senha**
+- Validações:
+  - E-mail válido
+  - Senha mínima de 6 caracteres
+- Botões:
+  - **Entrar** (valida e acessa se autenticado)
+  - **Criar conta** (redireciona para tela de cadastro)
+- Exibe erros de autenticação com mensagens amigáveis
+
+### 📝 Tela de Cadastro
+
+- Campos: **E-mail**, **Senha**
+- Ao criar a conta:
+  - Login imediato (ou controlado por parâmetro)
+  - UID salvo no Firebase
+  - Redireciona para a tela protegida
+
+### 🧾 Tela Principal (Apenas usuários logados)
+
+- Exibe e-mail do usuário autenticado
+- Botão para selecionar imagem:
+  - Escolher da **galeria**
+  - Tirar com **câmera**
+- Após imagem selecionada:
+  - Mostra **preview**
+  - Botão **Salvar no Firebase**
+    - Upload no **Firebase Storage**
+    - Salva URL da imagem no **Firestore**
+    - Exibe mensagem de sucesso/erro
+
+### 🚪 Logout
+
+- Botão para **sair da conta**
+- Redireciona para tela de login
+
+---
+
+## 🧾 Regras de Negócio
+
+- Apenas usuários autenticados acessam a tela principal
+- Validação obrigatória nos campos de login/cadastro
+- Armazenamento da imagem associada ao UID do usuário
+- Uso de permissões específicas para câmera e galeria
+- Possibilidade de bloquear login automático após cadastro
+
+---
+
+## 📁 Estrutura de Pastas
+
+- `/screens` → Telas do app (Login, Cadastro, Principal)
+- `/services` → Código de autenticação e Firebase
+- `/widgets` → Componentes reutilizáveis
+- `main.dart` → Inicialização do app, rotas, Firebase init
+
+---
+
+## ☁️ Tecnologias e Ferramentas
+
+- **Flutter SDK** (>= 3.x)
+- **Dart**
+- **Firebase**:
+  - `firebase_auth` (autenticação)
+  - `firebase_core` (inicialização)
+  - `cloud_firestore` (armazenamento de dados)
+  - `firebase_storage` (armazenamento de imagem)
+- **image_picker** (seleção da imagem)
+- **camera** (opcional)
+
