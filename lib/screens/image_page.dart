@@ -16,7 +16,7 @@ class ImagePage extends StatefulWidget {
 }
 
 class _ImagePageState extends State<ImagePage> {
-  File? _image;
+  File? image;
   final _picker = ImagePicker();
 
   @override
@@ -30,50 +30,130 @@ class _ImagePageState extends State<ImagePage> {
     List<Photo> photos = await DBHelper().getPhotosByUid(uid);
     if (photos.isNotEmpty) {
       setState(() {
-        _image = File(photos.first.photoName!);
+        image = File(photos.first.photoName!);
       });
     }
+  }
+
+  Future<void> pickImage(context) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      previewImage(context, imageFile);
+    }
+  }
+
+  Future<void> pickImageCamera(context) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+      previewImage(context, imageFile);
+    }
+  }
+
+  void previewImage(BuildContext context, File imageFile) {
+    showModalBottomSheet(
+      showDragHandle: true,
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext modalContext) {
+        return SizedBox(
+          height: 500,
+          width: 445,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Container(
+                    height: 280,
+                    width: 280,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.redAccent, width: 3),
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: Image.file(
+                        imageFile,
+                        width: 280,
+                        height: 280,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Container(
+                height: 50,
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await _saveImage(imageFile);
+                    Navigator.pop(modalContext);
+                  },
+                  child: const Text(
+                    "Salvar",
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.redAccent,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                height: 50,
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => ImagePage()),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  child: const Text(
+                    "Cancelar",
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.redAccent,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _saveImage(File imageFile) async {
     final appDir = await getApplicationDocumentsDirectory();
     final fileName = basename(imageFile.path);
-
-    // Copia a imagem para o diretório do app
     final savedImage = await imageFile.copy('${appDir.path}/$fileName');
 
-    // Cria objeto Photo com uid e caminho da imagem
     Photo newPhoto = Photo(
       uid: FirebaseAuth.instance.currentUser!.uid,
       photoName: savedImage.path,
     );
 
-    // Salva no banco
     await DBHelper().save(newPhoto);
 
     setState(() {
-      _image = savedImage;
+      image = savedImage;
     });
-  }
-
-  pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      await _saveImage(imageFile);
-
-    }
-    
-  }
-
-  pickImageCamera() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      await _saveImage(imageFile);
-    }
   }
 
   @override
@@ -81,7 +161,7 @@ class _ImagePageState extends State<ImagePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Text("Perfil"),
+        title: const Text("Perfil"),
         centerTitle: true,
         actions: [
           Padding(
@@ -90,11 +170,11 @@ class _ImagePageState extends State<ImagePage> {
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                   (Route<dynamic> route) => false,
                 );
               },
-              icon: Icon(Icons.logout, color: Colors.black, size: 30),
+              icon: const Icon(Icons.logout, color: Colors.black, size: 30),
             ),
           ),
         ],
@@ -102,7 +182,7 @@ class _ImagePageState extends State<ImagePage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          SizedBox(height: 90),
+          const SizedBox(height: 90),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -115,24 +195,25 @@ class _ImagePageState extends State<ImagePage> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: _image == null
-                    ? Icon(
-                        Icons.no_photography,
-                        color: Colors.grey,
-                        size: 210,
-                      )
-                    : ClipOval(
-                        child: Image.file(
-                          _image!,
-                          width: 280,
-                          height: 280,
-                          fit: BoxFit.cover,
+                child:
+                    image == null
+                        ? const Icon(
+                          Icons.no_photography,
+                          color: Colors.grey,
+                          size: 210,
+                        )
+                        : ClipOval(
+                          child: Image.file(
+                            image!,
+                            width: 280,
+                            height: 280,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
@@ -145,12 +226,12 @@ class _ImagePageState extends State<ImagePage> {
               child: Center(
                 child: Text(
                   "${FirebaseAuth.instance.currentUser?.email}",
-                  style: TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 22),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 70),
+          const SizedBox(height: 70),
           Container(
             height: 50,
             width: 210,
@@ -160,12 +241,12 @@ class _ImagePageState extends State<ImagePage> {
                   showDragHandle: true,
                   context: context,
                   isScrollControlled: true,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
                     ),
                   ),
-                  builder: (context) {
+                  builder: (BuildContext modalContext) {
                     return SizedBox(
                       height: 140,
                       width: 445,
@@ -177,8 +258,8 @@ class _ImagePageState extends State<ImagePage> {
                             color: const Color.fromARGB(255, 226, 223, 223),
                             child: InkWell(
                               onTap: () {
-                                pickImageCamera();
-                                Navigator.pop(context);
+                                Navigator.pop(modalContext);
+                                pickImageCamera(context);
                               },
                               splashColor: Colors.grey.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
@@ -188,8 +269,9 @@ class _ImagePageState extends State<ImagePage> {
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 3),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.camera_alt,
@@ -211,14 +293,14 @@ class _ImagePageState extends State<ImagePage> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           Material(
                             borderRadius: BorderRadius.circular(10),
                             color: const Color.fromARGB(255, 226, 223, 223),
                             child: InkWell(
                               onTap: () {
-                                pickImage();
-                                Navigator.pop(context);
+                                Navigator.pop(modalContext);
+                                pickImage(context);
                               },
                               splashColor: Colors.grey.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
@@ -228,8 +310,9 @@ class _ImagePageState extends State<ImagePage> {
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 3),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.image,
@@ -257,7 +340,7 @@ class _ImagePageState extends State<ImagePage> {
                   },
                 );
               },
-              child: Text(
+              child: const Text(
                 "Editar Foto de Perfil",
                 style: TextStyle(fontSize: 18, color: Colors.black),
               ),
