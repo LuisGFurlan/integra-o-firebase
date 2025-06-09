@@ -28,41 +28,56 @@ class _HomePageState extends State<HomePage> {
   }
 
 void botaoEntrar(String email, String senha) async {
-  try {
-    final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: senha,
-    );
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const ImagePage()),
-      (Route<dynamic> route) => false,
-    );
-  } on FirebaseAuthException catch (e) {
-    String errorMessage = 'Erro ao fazer login. Tente novamente.'; // Valor padrão
-    
-    switch (e.code) {
-      case 'invalid-email':
-        errorMessage = 'O formato do email é inválido.';
-        break;
-      case 'user-disabled':
-        errorMessage = 'Esta conta foi desativada.';
-        break;
-      case 'user-not-found':
-        errorMessage = 'Nenhum usuário encontrado com este email.';
-        break;
-      case 'wrong-password':
-        errorMessage = 'Senha incorreta.';
-        break;
+  final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
 
-    }
-
+  if (!emailRegex.hasMatch(email)) {
     QuickAlert.show(
       context: context,
       type: QuickAlertType.error,
       title: 'Erro',
       titleColor: Colors.white,
-      text: errorMessage,
+      text: 'Formato de email inválido.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
+
+  if (senha.length < 6) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Erro',
+      titleColor: Colors.white,
+      text: 'A senha deve conter ao menos 6 dígitos.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
+
+  try {
+    final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: senha,
+    );
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const ImagePage()),
+      (Route<dynamic> route) => false,
+    );
+  } on FirebaseAuthException catch (_) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Erro',
+      titleColor: Colors.white,
+      text: 'Email ou senha incorretos.',
       textColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       confirmBtnText: 'OK',
