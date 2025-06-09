@@ -3,6 +3,8 @@ import 'package:firebase_app/screens/image_page.dart';
 import 'package:firebase_app/services/autentificacao.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,7 +28,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void botaoEntrar(String email, String senha) async {
-    final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    try{
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: senha,
     );
@@ -36,6 +39,20 @@ class _HomePageState extends State<HomePage> {
       (Route<dynamic> route) => false,
     );
   }
+     catch (e) {
+       QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: 'Erro',
+            titleColor: Colors.white,
+            text: 'Login Inválido!',
+            textColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 30, 30, 30),
+            confirmBtnText: 'OK',
+            confirmBtnColor: Color(0xFFdd90452),
+          );
+     }
+}  
 
   @override
   Widget build(BuildContext context) {

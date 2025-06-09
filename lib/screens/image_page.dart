@@ -3,6 +3,10 @@ import 'package:firebase_app/screens/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
+import 'package:firebase_app/photo.dart';
+import 'package:firebase_app/db_helper.dart';
 
 class ImagePage extends StatefulWidget {
   const ImagePage({super.key});
@@ -15,21 +19,60 @@ class _ImagePageState extends State<ImagePage> {
   File? _image;
   final _picker = ImagePicker();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserPhoto();
+  }
+
+  Future<void> _loadUserPhoto() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    List<Photo> photos = await DBHelper().getPhotosByUid(uid);
+    if (photos.isNotEmpty) {
+      setState(() {
+        _image = File(photos.first.photoName!);
+      });
+    }
+  }
+
+  Future<void> _saveImage(File imageFile) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName = basename(imageFile.path);
+
+    // Copia a imagem para o diretório do app
+    final savedImage = await imageFile.copy('${appDir.path}/$fileName');
+
+    // Cria objeto Photo com uid e caminho da imagem
+    Photo newPhoto = Photo(
+      uid: FirebaseAuth.instance.currentUser!.uid,
+      photoName: savedImage.path,
+    );
+
+    // Salva no banco
+    await DBHelper().save(newPhoto);
+
+    setState(() {
+      _image = savedImage;
+    });
+  }
+
   pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      setState(() {});
+      File imageFile = File(pickedFile.path);
+      await _saveImage(imageFile);
+
     }
+    
   }
 
   pickImageCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      setState(() {});
+      File imageFile = File(pickedFile.path);
+      await _saveImage(imageFile);
     }
   }
 
@@ -135,6 +178,7 @@ class _ImagePageState extends State<ImagePage> {
                             child: InkWell(
                               onTap: () {
                                 pickImageCamera();
+                                Navigator.pop(context);
                               },
                               splashColor: Colors.grey.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
@@ -174,6 +218,7 @@ class _ImagePageState extends State<ImagePage> {
                             child: InkWell(
                               onTap: () {
                                 pickImage();
+                                Navigator.pop(context);
                               },
                               splashColor: Colors.grey.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(10),
@@ -217,7 +262,7 @@ class _ImagePageState extends State<ImagePage> {
                 style: TextStyle(fontSize: 18, color: Colors.black),
               ),
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
               ),
             ),
           ),
