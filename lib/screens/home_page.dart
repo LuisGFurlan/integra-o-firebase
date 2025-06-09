@@ -27,32 +27,61 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void botaoEntrar(String email, String senha) async {
-    try{
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+void botaoEntrar(String email, String senha) async {
+  try {
+    final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: senha,
     );
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => ImagePage()),
+      MaterialPageRoute(builder: (context) => const ImagePage()),
       (Route<dynamic> route) => false,
     );
+  } on FirebaseAuthException catch (e) {
+    String errorMessage = 'Erro ao fazer login. Tente novamente.'; // Valor padrão
+    
+    switch (e.code) {
+      case 'invalid-email':
+        errorMessage = 'O formato do email é inválido.';
+        break;
+      case 'user-disabled':
+        errorMessage = 'Esta conta foi desativada.';
+        break;
+      case 'user-not-found':
+        errorMessage = 'Nenhum usuário encontrado com este email.';
+        break;
+      case 'wrong-password':
+        errorMessage = 'Senha incorreta.';
+        break;
+
+    }
+
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Erro',
+      titleColor: Colors.white,
+      text: errorMessage,
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+  } catch (e) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Erro',
+      titleColor: Colors.white,
+      text: 'Ocorreu um erro inesperado. Tente novamente.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
   }
-     catch (e) {
-       QuickAlert.show(
-            context: context,
-            type: QuickAlertType.error,
-            title: 'Erro',
-            titleColor: Colors.white,
-            text: 'Login Inválido!',
-            textColor: Colors.white,
-            backgroundColor: Color.fromARGB(255, 30, 30, 30),
-            confirmBtnText: 'OK',
-            confirmBtnColor: Color(0xFFdd90452),
-          );
-     }
-}  
+}
 
   @override
   Widget build(BuildContext context) {

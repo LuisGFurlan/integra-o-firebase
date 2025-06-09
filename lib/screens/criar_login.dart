@@ -1,4 +1,5 @@
 import 'package:firebase_app/screens/home_page.dart';
+import 'package:firebase_app/screens/image_page.dart';
 import 'package:firebase_app/services/autentificacao.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
@@ -18,36 +19,49 @@ class _CriarLoginState extends State<CriarLogin> {
   Autentificacao autentificacao = Autentificacao();
 
   botaoCriarlogin() async {
-    String email = emailController.text.trim();
-    String senha = senhaController.text.trim();
-    String nome = nomeController.text.trim();
-    await autentificacao.cadastrarUsuario(
-      email: email,
-      senha: senha,
-    );
-    setState(() {
-      emailController.clear();
-      senhaController.clear();
-      nomeController.clear();
-    });
-    QuickAlert.show(
-      title: 'Sucesso',
-      context: context,
-      type: QuickAlertType.success,
-      text: 'Login Criado!',
-      confirmBtnText: 'OK',
-      backgroundColor: Color.fromARGB(255, 30, 30, 30),
-      textColor: Colors.white,
-      titleColor: Colors.white,
-      confirmBtnColor: Color(0xFF15bf5f),
-    ).then((_) {
+  bool allowAutoLoginAfterSignUp = true;
+
+  String email = emailController.text.trim();
+  String senha = senhaController.text.trim();
+  String nome = nomeController.text.trim();
+  
+  await autentificacao.cadastrarUsuario(
+    email: email,
+    senha: senha,
+  );
+  
+  setState(() {
+    emailController.clear();
+    senhaController.clear();
+    nomeController.clear();
+  });
+  
+  QuickAlert.show(
+    title: 'Sucesso',
+    context: context,
+    type: QuickAlertType.success,
+    text: 'Login Criado!',
+    confirmBtnText: 'OK',
+    backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+    textColor: Colors.white,
+    titleColor: Colors.white,
+    confirmBtnColor: const Color(0xFF15bf5f),
+  ).then((_) {
+    if (allowAutoLoginAfterSignUp == true) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const ImagePage()),
         (Route<dynamic> route) => false,
       );
-    });
-  }
+    } else {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +195,7 @@ class _CriarLoginState extends State<CriarLogin> {
             child: ElevatedButton(
               onPressed: () {
                 botaoCriarlogin();
+  
               },
               child: Text(
                 "Salvar",
