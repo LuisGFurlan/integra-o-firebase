@@ -122,20 +122,20 @@ void botaoEntrar(String email, String senha) async {
               padding: const EdgeInsets.only(left: 30),
               child: Text(
                 "Email",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 14),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 15, left: 15),
             child: Container(
-              height: 60,
+              height: 40,
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 6),
+                padding: const EdgeInsets.only(left: 15, bottom: 12),
                 child: TextField(
                   controller: emailController,
                   cursorColor: Colors.black,
@@ -155,20 +155,20 @@ void botaoEntrar(String email, String senha) async {
               padding: const EdgeInsets.only(left: 30),
               child: Text(
                 "Senha",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 14),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 15, left: 15),
             child: Container(
-              height: 60,
+              height: 40,
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 6),
+                padding: const EdgeInsets.only(left: 15, bottom: 12),
                 child: TextField(
                   controller: senhaController,
                   obscureText: true,
@@ -184,13 +184,13 @@ void botaoEntrar(String email, String senha) async {
           ),
           SizedBox(height: 40),
           Container(
-            height: 50,
+            height: 30,
             width: 150,
             child: ElevatedButton(
               onPressed: (){botaoEntrar(emailController.text, senhaController.text);},
               child: Text(
                 "Entrar",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.redAccent),
@@ -199,13 +199,13 @@ void botaoEntrar(String email, String senha) async {
           ),
           SizedBox(height: 10),
           Container(
-            height: 50,
+            height: 30,
             width: 150,
             child: ElevatedButton(
               onPressed: pagCriarLogin,
               child: Text(
                 "Criar Conta",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.redAccent),

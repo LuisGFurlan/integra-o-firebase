@@ -71,8 +71,8 @@ class _ImagePageState extends State<ImagePage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Container(
-                    height: 280,
-                    width: 280,
+                    height: 230,
+                    width: 230,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.redAccent, width: 3),
                       color: Colors.white,
@@ -81,8 +81,8 @@ class _ImagePageState extends State<ImagePage> {
                     child: ClipOval(
                       child: Image.file(
                         imageFile,
-                        width: 280,
-                        height: 280,
+                        width: 230,
+                        height: 230,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -91,7 +91,7 @@ class _ImagePageState extends State<ImagePage> {
               ),
               const SizedBox(height: 30),
               Container(
-                height: 50,
+                height: 30,
                 width: 150,
                 child: ElevatedButton(
                   onPressed: () async {
@@ -100,7 +100,7 @@ class _ImagePageState extends State<ImagePage> {
                   },
                   child: const Text(
                     "Salvar",
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
@@ -111,7 +111,7 @@ class _ImagePageState extends State<ImagePage> {
               ),
               SizedBox(height: 20),
               Container(
-                height: 50,
+                height: 30,
                 width: 150,
                 child: ElevatedButton(
                   onPressed: () async {
@@ -123,7 +123,7 @@ class _ImagePageState extends State<ImagePage> {
                   },
                   child: const Text(
                     "Cancelar",
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
@@ -188,8 +188,8 @@ class _ImagePageState extends State<ImagePage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Container(
-                height: 280,
-                width: 280,
+                height: 230,
+                width: 230,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.redAccent, width: 3),
                   color: Colors.white,
@@ -200,13 +200,13 @@ class _ImagePageState extends State<ImagePage> {
                         ? const Icon(
                           Icons.no_photography,
                           color: Colors.grey,
-                          size: 210,
+                          size: 180,
                         )
                         : ClipOval(
                           child: Image.file(
                             image!,
-                            width: 280,
-                            height: 280,
+                            width: 230,
+                            height: 230,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -215,10 +215,10 @@ class _ImagePageState extends State<ImagePage> {
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
-              height: 60,
-              width: 500,
+              height: 40,
+              width: 400,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.redAccent, width: 3),
                 borderRadius: BorderRadius.circular(40),
@@ -226,126 +226,128 @@ class _ImagePageState extends State<ImagePage> {
               child: Center(
                 child: Text(
                   "${FirebaseAuth.instance.currentUser?.email}",
-                  style: const TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 70),
           Container(
-            height: 50,
+            height: 30,
             width: 210,
-            child: ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  showDragHandle: true,
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
-                  builder: (BuildContext modalContext) {
-                    return SizedBox(
-                      height: 140,
-                      width: 445,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 226, 223, 223),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pop(modalContext);
-                                pickImageCamera(context);
-                              },
-                              splashColor: Colors.grey.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                height: 70,
-                                width: 130,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 3),
-                                    child: const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.black,
-                                          size: 40,
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          "Câmera",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Material(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 226, 223, 223),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pop(modalContext);
-                                pickImage(context);
-                              },
-                              splashColor: Colors.grey.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                height: 70,
-                                width: 130,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 3),
-                                    child: const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.image,
-                                          color: Colors.black,
-                                          size: 40,
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          "Galeria",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+            child: SafeArea(
+              child: ElevatedButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    showDragHandle: true,
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
                       ),
-                    );
-                  },
-                );
-              },
-              child: const Text(
-                "Editar Foto de Perfil",
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                    ),
+                    builder: (BuildContext modalContext) {
+                      return SizedBox(
+                        height: 140,
+                        width: 445,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 226, 223, 223),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(modalContext);
+                                  pickImageCamera(context);
+                                },
+                                splashColor: Colors.grey.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  height: 70,
+                                  width: 130,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: const Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.camera_alt,
+                                            color: Colors.black,
+                                            size: 40,
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "Câmera",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 226, 223, 223),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(modalContext);
+                                  pickImage(context);
+                                },
+                                splashColor: Colors.grey.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  height: 70,
+                                  width: 130,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: const Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.image,
+                                            color: Colors.black,
+                                            size: 40,
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            "Galeria",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: const Text(
+                  "Editar Foto de Perfil",
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                ),
               ),
             ),
           ),

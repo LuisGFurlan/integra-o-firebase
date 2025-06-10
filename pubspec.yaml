@@ -25,11 +25,19 @@ dependencies:
   cloud_firestore: ^5.5.3
   firebase_storage: ^12.1.3
   firebase_analytics: ^11.4.6
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: "^0.14.3"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/firebase.png"
 
 flutter:
   uses-material-design: true

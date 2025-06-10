@@ -8,9 +8,9 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
-        android:label="firebase"
+        android:label="Conexão"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
 
         <!-- 📦 FileProvider para capturas de imagem -->
         <provider

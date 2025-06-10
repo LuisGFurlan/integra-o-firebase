@@ -19,49 +19,97 @@ class _CriarLoginState extends State<CriarLogin> {
   Autentificacao autentificacao = Autentificacao();
 
   botaoCriarlogin() async {
-  bool allowAutoLoginAfterSignUp = true;
+    String email = emailController.text.trim();
+    String senha = senhaController.text.trim();
+    String nome = nomeController.text.trim();
 
-  String email = emailController.text.trim();
-  String senha = senhaController.text.trim();
-  String nome = nomeController.text.trim();
-  
-  await autentificacao.cadastrarUsuario(
-    email: email,
-    senha: senha,
-  );
-  
-  setState(() {
-    emailController.clear();
-    senhaController.clear();
-    nomeController.clear();
-  });
-  
-  QuickAlert.show(
-    title: 'Sucesso',
-    context: context,
-    type: QuickAlertType.success,
-    text: 'Login Criado!',
-    confirmBtnText: 'OK',
-    backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-    textColor: Colors.white,
-    titleColor: Colors.white,
-    confirmBtnColor: const Color(0xFF15bf5f),
-  ).then((_) {
-    if (allowAutoLoginAfterSignUp == true) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const ImagePage()),
-        (Route<dynamic> route) => false,
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+
+    if (nome.isEmpty) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        text: 'O nome não pode estar vazio.',
+        titleColor: Colors.white,
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
       );
-    } else {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-        (Route<dynamic> route) => false,
+      return;
+    }
+
+    if (!emailRegex.hasMatch(email)) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        text: 'Formato de email inválido.',
+        titleColor: Colors.white,
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+      return;
+    }
+
+    if (senha.length < 6) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        text: 'A senha deve conter ao menos 6 caracteres.',
+        titleColor: Colors.white,
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+      return;
+    }
+
+    try {
+      await autentificacao.cadastrarUsuario(email: email, senha: senha);
+
+      setState(() {
+        emailController.clear();
+        senhaController.clear();
+        nomeController.clear();
+      });
+
+      QuickAlert.show(
+        title: 'Sucesso',
+        context: context,
+        type: QuickAlertType.success,
+        text: 'Login Criado!',
+        confirmBtnText: 'OK',
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        textColor: Colors.white,
+        titleColor: Colors.white,
+        confirmBtnColor: const Color(0xFF15bf5f),
+      ).then((_) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const ImagePage()),
+          (Route<dynamic> route) => false,
+        );
+      });
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        text: 'Erro ao criar conta. Tente novamente.',
+        titleColor: Colors.white,
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
       );
     }
-  });
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,13 +143,13 @@ class _CriarLoginState extends State<CriarLogin> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
-              height: 60,
+              height: 40,
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 6),
+                padding: const EdgeInsets.only(left: 15, bottom: 12),
                 child: TextField(
                   controller: nomeController,
                   cursorColor: Colors.black,
@@ -124,20 +172,20 @@ class _CriarLoginState extends State<CriarLogin> {
               padding: const EdgeInsets.only(left: 30),
               child: Text(
                 "Email",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 14),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
-              height: 60,
+              height: 40,
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 6),
+                padding: const EdgeInsets.only(left: 15, bottom: 12),
                 child: TextField(
                   controller: emailController,
                   cursorColor: Colors.black,
@@ -160,20 +208,20 @@ class _CriarLoginState extends State<CriarLogin> {
               padding: const EdgeInsets.only(left: 30),
               child: Text(
                 "Senha",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 14),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Container(
-              height: 60,
+              height: 40,
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 6),
+                padding: const EdgeInsets.only(left: 15, bottom: 12),
                 child: TextField(
                   controller: senhaController,
                   obscureText: true,
@@ -190,15 +238,36 @@ class _CriarLoginState extends State<CriarLogin> {
 
           SizedBox(height: 40),
           Container(
-            height: 50,
+            height: 30,
             width: 150,
             child: ElevatedButton(
               onPressed: () {
                 botaoCriarlogin();
-  
               },
               child: Text(
                 "Salvar",
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          SizedBox(height: 40),
+          Container(
+            height: 30,
+            width: 150,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: Text(
+                "Cancelar",
                 style: TextStyle(fontSize: 18, color: Colors.black),
               ),
               style: ButtonStyle(
