@@ -81,7 +81,7 @@ class _CriarLoginState extends State<CriarLogin> {
 
       QuickAlert.show(
         title: 'Sucesso',
-        context: context,
+        context: context, 
         type: QuickAlertType.success,
         text: 'Login Criado!',
         confirmBtnText: 'OK',
@@ -136,7 +136,7 @@ class _CriarLoginState extends State<CriarLogin> {
               padding: const EdgeInsets.only(left: 30),
               child: Text(
                 "Nome",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 14),
               ),
             ),
           ),
@@ -246,7 +246,7 @@ class _CriarLoginState extends State<CriarLogin> {
               },
               child: Text(
                 "Salvar",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.redAccent),
@@ -254,7 +254,6 @@ class _CriarLoginState extends State<CriarLogin> {
             ),
           ),
           SizedBox(height: 10),
-          SizedBox(height: 40),
           Container(
             height: 30,
             width: 150,
@@ -268,7 +267,7 @@ class _CriarLoginState extends State<CriarLogin> {
               },
               child: Text(
                 "Cancelar",
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(fontSize: 14, color: Colors.black),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.redAccent),

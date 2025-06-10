@@ -115,11 +115,7 @@ class _ImagePageState extends State<ImagePage> {
                 width: 150,
                 child: ElevatedButton(
                   onPressed: () async {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => ImagePage()),
-                      (Route<dynamic> route) => false,
-                    );
+                    Navigator.pop(modalContext);
                   },
                   child: const Text(
                     "Cancelar",
@@ -235,20 +231,20 @@ class _ImagePageState extends State<ImagePage> {
           Container(
             height: 30,
             width: 210,
-            child: SafeArea(
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    showDragHandle: true,
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
+            child: ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  showDragHandle: true,
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
                     ),
-                    builder: (BuildContext modalContext) {
-                      return SizedBox(
+                  ),
+                  builder: (BuildContext modalContext) {
+                    return SafeArea(
+                      child: SizedBox(
                         height: 140,
                         width: 445,
                         child: Row(
@@ -337,17 +333,17 @@ class _ImagePageState extends State<ImagePage> {
                             ),
                           ],
                         ),
-                      );
-                    },
-                  );
-                },
-                child: const Text(
-                  "Editar Foto de Perfil",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.redAccent),
-                ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Text(
+                "Editar Foto de Perfil",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
               ),
             ),
           ),

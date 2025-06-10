@@ -3,7 +3,7 @@ flutter_native_splash:
   image: "assets/images/firebase.png"
 
   android_12:
-    image: "assets/images/android12.png"
+    image: "assets/images/Logo1.png"
     color: "#FFFFFF"
     
   
