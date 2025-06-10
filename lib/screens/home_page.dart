@@ -27,191 +27,221 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-void botaoEntrar(String email, String senha) async {
-  final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+  void botaoEntrar(String email, String senha) async {
+    final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
 
-  if (!emailRegex.hasMatch(email)) {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.error,
-      title: 'Erro',
-      titleColor: Colors.white,
-      text: 'Formato de email inválido.',
-      textColor: Colors.white,
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-      confirmBtnText: 'OK',
-      confirmBtnColor: const Color(0xFFdd90452),
-    );
-    return;
+    if (!emailRegex.hasMatch(email)) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        titleColor: Colors.white,
+        text: 'Formato de email inválido.',
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+      return;
+    }
+
+    if (senha.length < 6) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        titleColor: Colors.white,
+        text: 'A senha deve conter ao menos 6 dígitos.',
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+      return;
+    }
+
+    try {
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: senha,
+      );
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const ImagePage()),
+        (Route<dynamic> route) => false,
+      );
+    } on FirebaseAuthException catch (_) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        titleColor: Colors.white,
+        text: 'Email ou senha incorretos.',
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Erro',
+        titleColor: Colors.white,
+        text: 'Ocorreu um erro inesperado. Tente novamente.',
+        textColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        confirmBtnText: 'OK',
+        confirmBtnColor: const Color(0xFFdd90452),
+      );
+    }
   }
-
-  if (senha.length < 6) {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.error,
-      title: 'Erro',
-      titleColor: Colors.white,
-      text: 'A senha deve conter ao menos 6 dígitos.',
-      textColor: Colors.white,
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-      confirmBtnText: 'OK',
-      confirmBtnColor: const Color(0xFFdd90452),
-    );
-    return;
-  }
-
-  try {
-    final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: senha,
-    );
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const ImagePage()),
-      (Route<dynamic> route) => false,
-    );
-  } on FirebaseAuthException catch (_) {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.error,
-      title: 'Erro',
-      titleColor: Colors.white,
-      text: 'Email ou senha incorretos.',
-      textColor: Colors.white,
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-      confirmBtnText: 'OK',
-      confirmBtnColor: const Color(0xFFdd90452),
-    );
-  } catch (e) {
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.error,
-      title: 'Erro',
-      titleColor: Colors.white,
-      text: 'Ocorreu um erro inesperado. Tente novamente.',
-      textColor: Colors.white,
-      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-      confirmBtnText: 'OK',
-      confirmBtnColor: const Color(0xFFdd90452),
-    );
-  }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Login", style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-        backgroundColor: Colors.redAccent,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Icon(Icons.account_circle, size: 30, color: Colors.black),
-          ),
-        ],
-      ),
+      backgroundColor: const Color.fromARGB(255, 17, 17, 17),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "Email",
-                style: TextStyle(color: Colors.black, fontSize: 14),
-              ),
-            ),
-          ),
+          Spacer(),
           Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
+            padding: const EdgeInsets.only( right: 15, left: 15),
             child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
-                child: TextField(
-                  controller: emailController,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                  ),
+              child: Text(
+                "Seja Bem Vindo!",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
           SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "Senha",
-                style: TextStyle(color: Colors.black, fontSize: 14),
+          Container(
+            child: Text(
+              "Por favor, faça loguin em sua conta",
+              style: TextStyle(
+                fontSize: 16,
+                color: Color.fromARGB(255, 102, 102, 102),
               ),
             ),
           ),
+          SizedBox(height: 125),
           Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Container(
-              height: 40,
+              height: 50,
               decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(15),
+                color: const Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
-                child: TextField(
-                  controller: senhaController,
-                  obscureText: true,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: TextField(
+                    controller: emailController,
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      hintText: "Email",
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
             ),
           ),
-          SizedBox(height: 40),
-          Container(
-            height: 30,
-            width: 150,
-            child: ElevatedButton(
-              onPressed: (){botaoEntrar(emailController.text, senhaController.text);},
-              child: Text(
-                "Entrar",
-                style: TextStyle(fontSize: 14, color: Colors.black),
+          SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
               ),
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: TextField(
+                    controller: senhaController,
+                    obscureText: true,
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      hintText: "Senha",
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                    ),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ),
           ),
-          SizedBox(height: 10),
-          Container(
-            height: 30,
-            width: 150,
-            child: ElevatedButton(
-              onPressed: pagCriarLogin,
-              child: Text(
-                "Criar Conta",
-                style: TextStyle(fontSize: 14, color: Colors.black),
-              ),
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.redAccent),
+          SizedBox(height: 120),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              height: 50,
+              width: 500,
+              child: ElevatedButton(
+                onPressed: () {
+                  botaoEntrar(emailController.text, senhaController.text);
+                },
+                child: Text(
+                  "Entrar",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                    Color.fromARGB(255, 41, 40, 40),
+                  ),
+                  shape: WidgetStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: Colors.white, // cor da borda
+                        width: 1, // espessura da borda
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
+          SizedBox(height: 2),
+          Padding(
+            padding: const EdgeInsets.only(left: 27),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Não tem uma conta?",
+                  style: TextStyle(color: Colors.white),
+                ),
+                TextButton(
+                  onPressed: () {
+                    pagCriarLogin();
+                  },
+                  child: Text(
+                    "Criar conta",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Spacer()
         ],
       ),
     );

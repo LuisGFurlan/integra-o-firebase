@@ -52,88 +52,86 @@ class _ImagePageState extends State<ImagePage> {
   }
 
   void previewImage(BuildContext context, File imageFile) {
-    showModalBottomSheet(
-      showDragHandle: true,
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext modalContext) {
-        return SizedBox(
-          height: 500,
-          width: 445,
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+    ),
+    backgroundColor: const Color.fromARGB(255, 22, 22, 22),
+    builder: (modalContext) {
+      return SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Container(
-                    height: 230,
-                    width: 230,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.redAccent, width: 3),
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: ClipOval(
-                      child: Image.file(
-                        imageFile,
-                        width: 230,
-                        height: 230,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+              ClipOval(
+                child: Image.file(
+                  imageFile,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 30),
-              Container(
-                height: 30,
-                width: 150,
+              SizedBox(
+                height: 45,
+                width: 160,
                 child: ElevatedButton(
                   onPressed: () async {
                     await _saveImage(imageFile);
                     Navigator.pop(modalContext);
                   },
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 41, 40, 40),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                    ),
+                  ),
                   child: const Text(
                     "Salvar",
-                    style: TextStyle(fontSize: 14, color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Colors.redAccent,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Container(
-                height: 30,
-                width: 150,
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 45,
+                width: 160,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pop(modalContext);
-                  },
+                  onPressed: () => Navigator.pop(modalContext),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 41, 40, 40),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(color: Colors.white),
+                      ),
+                    ),
+                  ),
                   child: const Text(
                     "Cancelar",
-                    style: TextStyle(fontSize: 14, color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Colors.redAccent,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
               ),
             ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 
   Future<void> _saveImage(File imageFile) async {
     final appDir = await getApplicationDocumentsDirectory();
@@ -155,199 +153,147 @@ class _ImagePageState extends State<ImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 17, 17, 17),
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        title: const Text("Perfil"),
+        backgroundColor: const Color.fromARGB(255, 41, 40, 40),
+        title: const Text("Perfil", style: TextStyle(color: Colors.white)),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              icon: const Icon(Icons.logout, color: Colors.black, size: 30),
-            ),
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+                (Route<dynamic> route) => false,
+              );
+            },
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SizedBox(height: 90),
+          const SizedBox(height: 70),
           Align(
             alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Container(
-                height: 230,
-                width: 230,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.redAccent, width: 3),
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child:
-                    image == null
-                        ? const Icon(
-                          Icons.no_photography,
-                          color: Colors.grey,
-                          size: 180,
-                        )
-                        : ClipOval(
-                          child: Image.file(
-                            image!,
-                            width: 230,
-                            height: 230,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+            child: Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 30, 30, 30),
+                border: Border.all(color: Colors.white),
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: image == null
+                    ? const Icon(Icons.no_photography,
+                        color: Colors.white38, size: 140)
+                    : Image.file(image!, fit: BoxFit.cover),
               ),
             ),
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Container(
-              height: 40,
-              width: 400,
+              height: 45,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.redAccent, width: 3),
-                borderRadius: BorderRadius.circular(40),
+                color: const Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
                 child: Text(
-                  "${FirebaseAuth.instance.currentUser?.email}",
-                  style: const TextStyle(fontSize: 16),
+                  FirebaseAuth.instance.currentUser?.email ?? '',
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 70),
-          Container(
-            height: 30,
-            width: 210,
+          const SizedBox(height: 60),
+          SizedBox(
+            width: 200,
+            height: 45,
             child: ElevatedButton(
               onPressed: () {
                 showModalBottomSheet(
-                  showDragHandle: true,
                   context: context,
-                  isScrollControlled: true,
+                  backgroundColor: const Color.fromARGB(255, 30, 30, 30),
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                   ),
                   builder: (BuildContext modalContext) {
-                    return SafeArea(
-                      child: SizedBox(
-                        height: 140,
-                        width: 445,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Material(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color.fromARGB(255, 226, 223, 223),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(modalContext);
-                                  pickImageCamera(context);
-                                },
-                                splashColor: Colors.grey.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  height: 70,
-                                  width: 130,
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 3),
-                                      child: const Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.black,
-                                            size: 40,
-                                          ),
-                                          SizedBox(height: 4),
-                                          Text(
-                                            "Câmera",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Material(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color.fromARGB(255, 226, 223, 223),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(modalContext);
-                                  pickImage(context);
-                                },
-                                splashColor: Colors.grey.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  height: 70,
-                                  width: 130,
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 3),
-                                      child: const Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.image,
-                                            color: Colors.black,
-                                            size: 40,
-                                          ),
-                                          SizedBox(height: 4),
-                                          Text(
-                                            "Galeria",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildImageSourceButton(
+                            icon: Icons.camera_alt,
+                            label: 'Câmera',
+                            onTap: () {
+                              Navigator.pop(modalContext);
+                              pickImageCamera(context);
+                            },
+                          ),
+                          _buildImageSourceButton(
+                            icon: Icons.image,
+                            label: 'Galeria',
+                            onTap: () {
+                              Navigator.pop(modalContext);
+                              pickImage(context);
+                            },
+                          ),
+                        ],
                       ),
                     );
                   },
                 );
               },
-              child: const Text(
-                "Editar Foto de Perfil",
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                backgroundColor: WidgetStateProperty.all(
+                  const Color.fromARGB(255, 41, 40, 40),
+                ),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: Colors.white),
+                  ),
+                ),
+              ),
+              child: const Text(
+                "Selecionar Imagem",
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImageSourceButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: const Color.fromARGB(255, 41, 40, 40),
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          height: 100,
+          width: 120,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: Colors.white, size: 32),
+              const SizedBox(height: 8),
+              Text(label, style: const TextStyle(color: Colors.white)),
+            ],
+          ),
+        ),
       ),
     );
   }

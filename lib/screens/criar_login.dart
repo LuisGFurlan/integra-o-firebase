@@ -2,7 +2,8 @@ import 'package:firebase_app/screens/home_page.dart';
 import 'package:firebase_app/screens/image_page.dart';
 import 'package:firebase_app/services/autentificacao.dart';
 import 'package:flutter/material.dart';
-import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class CriarLogin extends StatefulWidget {
   const CriarLogin({super.key});
@@ -30,8 +31,8 @@ class _CriarLoginState extends State<CriarLogin> {
         context: context,
         type: QuickAlertType.error,
         title: 'Erro',
-        text: 'O nome não pode estar vazio.',
         titleColor: Colors.white,
+        text: 'O nome não pode estar vazio.',
         textColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         confirmBtnText: 'OK',
@@ -45,8 +46,8 @@ class _CriarLoginState extends State<CriarLogin> {
         context: context,
         type: QuickAlertType.error,
         title: 'Erro',
-        text: 'Formato de email inválido.',
         titleColor: Colors.white,
+        text: 'Formato de email inválido.',
         textColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         confirmBtnText: 'OK',
@@ -60,8 +61,8 @@ class _CriarLoginState extends State<CriarLogin> {
         context: context,
         type: QuickAlertType.error,
         title: 'Erro',
-        text: 'A senha deve conter ao menos 6 caracteres.',
         titleColor: Colors.white,
+        text: 'A senha deve conter ao menos 6 caracteres.',
         textColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         confirmBtnText: 'OK',
@@ -81,7 +82,7 @@ class _CriarLoginState extends State<CriarLogin> {
 
       QuickAlert.show(
         title: 'Sucesso',
-        context: context, 
+        context: context,
         type: QuickAlertType.success,
         text: 'Login Criado!',
         confirmBtnText: 'OK',
@@ -101,8 +102,8 @@ class _CriarLoginState extends State<CriarLogin> {
         context: context,
         type: QuickAlertType.error,
         title: 'Erro',
-        text: 'Erro ao criar conta. Tente novamente.',
         titleColor: Colors.white,
+        text: 'Erro ao criar conta. Tente novamente.',
         textColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         confirmBtnText: 'OK',
@@ -111,166 +112,179 @@ class _CriarLoginState extends State<CriarLogin> {
     }
   }
 
+  void pagHome() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+      (Route<dynamic> route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Criar Login", style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-        backgroundColor: Colors.redAccent,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: Icon(Icons.account_circle, size: 30, color: Colors.black),
-          ),
-        ],
-      ),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 17, 17, 17),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Campo nome
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "Nome",
-                style: TextStyle(color: Colors.black, fontSize: 14),
-              ),
-            ),
-          ),
+          // Título
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
-                child: TextField(
-                  controller: nomeController,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 10),
-
-          // Campo email
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
+              alignment: Alignment.centerLeft,
               child: Text(
-                "Email",
-                style: TextStyle(color: Colors.black, fontSize: 14),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
-                child: TextField(
-                  controller: emailController,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 10),
-
-          // Campo senha
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Text(
-                "Senha",
-                style: TextStyle(color: Colors.black, fontSize: 14),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
-                child: TextField(
-                  controller: senhaController,
-                  obscureText: true,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                  ),
+                "Criar Conta",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
 
           SizedBox(height: 40),
-          Container(
-            height: 30,
-            width: 150,
-            child: ElevatedButton(
-              onPressed: () {
-                botaoCriarlogin();
-              },
-              child: Text(
-                "Salvar",
-                style: TextStyle(fontSize: 14, color: Colors.black),
+
+          // Campo Nome
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: TextField(
+                  controller: nomeController,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Nome",
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
-          SizedBox(height: 10),
-          Container(
-            height: 30,
-            width: 150,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: Text(
-                "Cancelar",
-                style: TextStyle(fontSize: 14, color: Colors.black),
+
+          SizedBox(height: 15),
+
+          // Campo Email
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
               ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: TextField(
+                  controller: emailController,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 15),
+
+          // Campo Senha
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 41, 40, 40),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: TextField(
+                  controller: senhaController,
+                  obscureText: true,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: "Senha",
+                    hintStyle: TextStyle(color: Colors.white),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 60),
+
+          // Botão Salvar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: botaoCriarlogin,
+                child: Text(
+                  "Salvar",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 41, 40, 40),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.white, width: 1),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 15),
+
+          // Botão Cancelar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: pagHome,
+                child: Text(
+                  "Cancelar",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 41, 40, 40),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.white, width: 1),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
