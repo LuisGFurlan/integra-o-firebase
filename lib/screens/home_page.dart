@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
+  bool _obscureText = true; // <<<<<< Adicionado
 
   Autentificacao autentificacao = Autentificacao();
 
@@ -106,25 +107,44 @@ class _HomePageState extends State<HomePage> {
         children: [
           Spacer(),
           Padding(
-            padding: const EdgeInsets.only( right: 15, left: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Container(
-              child: Text(
-                "Seja Bem Vindo!",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              height: 120,
+              width: 500,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 29, 28, 28),
+                border: Border.all(
+                  width: 1,
+                  color: const Color.fromARGB(255, 83, 78, 78),
                 ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    spreadRadius: 8,
+                    blurRadius: 8,
+                  ),
+                ],
               ),
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            child: Text(
-              "Por favor, faça loguin em sua conta",
-              style: TextStyle(
-                fontSize: 16,
-                color: Color.fromARGB(255, 102, 102, 102),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Seja Bem Vindo!",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Por favor, faça login em sua conta",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromARGB(255, 102, 102, 102),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -141,6 +161,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: TextField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
@@ -167,19 +188,32 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10, top: 4),
                   child: TextField(
                     controller: senhaController,
-                    obscureText: true,
+                    obscureText: _obscureText,
                     cursorColor: Colors.white,
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: "Senha",
                       hintStyle: TextStyle(color: Colors.white),
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
                     ),
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -206,10 +240,7 @@ class _HomePageState extends State<HomePage> {
                   shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(
-                        color: Colors.white, // cor da borda
-                        width: 1, // espessura da borda
-                      ),
+                      side: BorderSide(color: Colors.white, width: 1),
                     ),
                   ),
                 ),
@@ -241,7 +272,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Spacer()
+          Spacer(),
         ],
       ),
     );
