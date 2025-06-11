@@ -19,7 +19,7 @@ class _CriarLoginState extends State<CriarLogin> {
 
   Autentificacao autentificacao = Autentificacao();
 
-  bool _obscurePassword = true; // ← controle do campo de senha
+  bool _obscurePassword = true;
 
   botaoCriarlogin() async {
     String email = emailController.text.trim();
@@ -126,222 +126,251 @@ class _CriarLoginState extends State<CriarLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 17, 17, 17),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Título
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Text(
-                        "Criar Conta",
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.person_add, size: 25, color: Colors.white),
-                    ],
-                  ),
-                ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 25),
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 29, 28, 28),
-                    border: Border.all(
-                      width: 1,
-                      color: const Color.fromARGB(255, 83, 78, 78),
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(100),
-                        spreadRadius: 10,
-                        blurRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      pagHome();
-                    },
-                    icon: Icon(Icons.arrow_back, size: 35, color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: 40),
-
-          // Campo Nome
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              width: 500,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 29, 28, 28),
-                border: Border.all(
-                  width: 1,
-                  color: const Color.fromARGB(255, 83, 78, 78),
-                ),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(100),
-                    spreadRadius: 12,
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
+            child: IntrinsicHeight(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 41, 40, 40),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextField(
-                          controller: nomeController,
-                          cursorColor: Colors.white,
-                          decoration: InputDecoration(
-                            hintText: "Nome",
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                          ),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-
-                  // Campo Email
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 41, 40, 40),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: emailController,
-                          cursorColor: Colors.white,
-                          decoration: InputDecoration(
-                            hintText: "Email",
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                          ),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 15),
-
-                  // Campo Senha com ícone de visualização
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 41, 40, 40),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10, top: 4),
-                        child: TextField(
-                          controller: senhaController,
-                          obscureText: _obscurePassword,
-                          cursorColor: Colors.white,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Senha",
-                            hintStyle: TextStyle(color: Colors.white),
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscurePassword
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Criar Conta",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.person_add,
+                                size: 25,
                                 color: Colors.white,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
+                            ],
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 29, 28, 28),
+                            border: Border.all(
+                              width: 1,
+                              color: const Color.fromARGB(255, 83, 78, 78),
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(100),
+                                spreadRadius: 10,
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              pagHome();
+                            },
+                            icon: Icon(
+                              Icons.arrow_back,
+                              size: 35,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
 
-                  SizedBox(height: 60),
+                  SizedBox(height: 40),
 
-                  // Botão Salvar
+                  // Campo Nome
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: SizedBox(
-                      height: 50,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: botaoCriarlogin,
-                        child: Text(
-                          "Salvar",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                    child: Container(
+                      width: 500,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 29, 28, 28),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color.fromARGB(255, 83, 78, 78),
                         ),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 41, 40, 40),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(100),
+                            spreadRadius: 12,
+                            blurRadius: 10,
                           ),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: Colors.white, width: 1),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 41, 40, 40),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  controller: nomeController,
+                                  cursorColor: Colors.white,
+                                  decoration: InputDecoration(
+                                    hintText: "Nome",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(height: 15),
+
+                          // Campo Email
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 41, 40, 40),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: emailController,
+                                  cursorColor: Colors.white,
+                                  decoration: InputDecoration(
+                                    hintText: "Email",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 15),
+
+                          // Campo Senha
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 41, 40, 40),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  top: 4,
+                                ),
+                                child: TextField(
+                                  controller: senhaController,
+                                  obscureText: _obscurePassword,
+                                  cursorColor: Colors.white,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: "Senha",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscurePassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscurePassword = !_obscurePassword;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 60),
+
+                          // Botão Salvar
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: SizedBox(
+                              height: 50,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: botaoCriarlogin,
+                                child: Text(
+                                  "Salvar",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 41, 40, 40),
+                                  ),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      side: BorderSide(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 30),
+                        ],
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 30),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

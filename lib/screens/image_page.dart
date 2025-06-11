@@ -61,71 +61,73 @@ class _ImagePageState extends State<ImagePage> {
       ),
       backgroundColor: const Color.fromARGB(255, 22, 22, 22),
       builder: (modalContext) {
-        return SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ClipOval(
-                  child: Image.file(
-                    imageFile,
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.cover,
+        return SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ClipOval(
+                    child: Image.file(
+                      imageFile,
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                SizedBox(
-                  height: 45,
-                  width: 160,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await _saveImage(imageFile);
-                      Navigator.pop(modalContext);
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 41, 40, 40),
-                      ),
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: 45,
+                    width: 160,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await _saveImage(imageFile);
+                        Navigator.pop(modalContext);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(
+                          const Color.fromARGB(255, 41, 40, 40),
+                        ),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: const BorderSide(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                    child: const Text(
-                      "Salvar",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      child: const Text(
+                        "Salvar",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                SizedBox(
-                  height: 45,
-                  width: 160,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(modalContext),
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                        const Color.fromARGB(255, 41, 40, 40),
-                      ),
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white),
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    height: 45,
+                    width: 160,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(modalContext),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(
+                          const Color.fromARGB(255, 41, 40, 40),
+                        ),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: const BorderSide(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                    child: const Text(
-                      "Cancelar",
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      child: const Text(
+                        "Cancelar",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -316,28 +318,30 @@ class _ImagePageState extends State<ImagePage> {
                       ),
                     ),
                     builder: (BuildContext modalContext) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildImageSourceButton(
-                              icon: Icons.camera_alt,
-                              label: 'Câmera',
-                              onTap: () {
-                                Navigator.pop(modalContext);
-                                pickImageCamera(context);
-                              },
-                            ),
-                            _buildImageSourceButton(
-                              icon: Icons.image,
-                              label: 'Galeria',
-                              onTap: () {
-                                Navigator.pop(modalContext);
-                                pickImage(context);
-                              },
-                            ),
-                          ],
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _buildImageSourceButton(
+                                icon: Icons.camera_alt,
+                                label: 'Câmera',
+                                onTap: () {
+                                  Navigator.pop(modalContext);
+                                  pickImageCamera(context);
+                                },
+                              ),
+                              _buildImageSourceButton(
+                                icon: Icons.image,
+                                label: 'Galeria',
+                                onTap: () {
+                                  Navigator.pop(modalContext);
+                                  pickImage(context);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

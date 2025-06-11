@@ -21,10 +21,9 @@ class _HomePageState extends State<HomePage> {
   Autentificacao autentificacao = Autentificacao();
 
   void pagCriarLogin() {
-    Navigator.pushAndRemoveUntil(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CriarLogin()),
-      (Route<dynamic> route) => false,
     );
   }
 
@@ -103,177 +102,180 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 17, 17, 17),
-      body: Column(
-        children: [
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Container(
-              height: 120,
-              width: 500,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 29, 28, 28),
-                border: Border.all(
-                  width: 1,
-                  color: const Color.fromARGB(255, 83, 78, 78),
-                ),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                    spreadRadius: 8,
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Seja Bem Vindo!",
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 120,
+                  width: 500,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 29, 28, 28),
+                    border: Border.all(
+                      width: 1,
+                      color: const Color.fromARGB(255, 83, 78, 78),
                     ),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 8,
+                        blurRadius: 8,
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Por favor, faça login em sua conta",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 102, 102, 102),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 125),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 41, 40, 40),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 41, 40, 40),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 4),
-                  child: TextField(
-                    controller: senhaController,
-                    obscureText: _obscureText,
-                    cursorColor: Colors.white,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Senha",
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Seja Bem Vindo!",
+                        style: TextStyle(
+                          fontSize: 22,
                           color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
+                      ),
+                      Text(
+                        "Por favor, faça login em sua conta",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 102, 102, 102),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 125),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 41, 40, 40),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailController,
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                          hintText: "Email",
+                          hintStyle: TextStyle(color: Colors.white),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 120),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              height: 50,
-              width: 500,
-              child: ElevatedButton(
-                onPressed: () {
-                  botaoEntrar(emailController.text, senhaController.text);
-                },
-                child: Text(
-                  "Entrar",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(
-                    Color.fromARGB(255, 41, 40, 40),
+              const SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 41, 40, 40),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.white, width: 1),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 4),
+                      child: TextField(
+                        controller: senhaController,
+                        obscureText: _obscureText,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: "Senha",
+                          hintStyle: const TextStyle(color: Colors.white),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 2),
-          Padding(
-            padding: const EdgeInsets.only(left: 27),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Não tem uma conta?",
-                  style: TextStyle(color: Colors.white),
-                ),
-                TextButton(
-                  onPressed: () {
-                    pagCriarLogin();
-                  },
-                  child: Text(
-                    "Criar conta",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+              const SizedBox(height: 120),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: SizedBox(
+                  height: 50,
+                  width: 500,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      botaoEntrar(emailController.text, senhaController.text);
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        const Color.fromARGB(255, 41, 40, 40),
+                      ),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white, width: 1),
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      "Entrar",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 2),
+              Padding(
+                padding: const EdgeInsets.only(left: 27),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Não tem uma conta?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    TextButton(
+                      onPressed: pagCriarLogin,
+                      child: const Text(
+                        "Criar conta",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+            ],
           ),
-          Spacer(),
-        ],
+        ),
       ),
     );
   }
