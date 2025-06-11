@@ -185,7 +185,7 @@ class _CriarLoginState extends State<CriarLogin> {
                           ),
                           child: IconButton(
                             onPressed: () {
-                              pagHome();
+                              Navigator.pop(context);
                             },
                             icon: Icon(
                               Icons.arrow_back,
