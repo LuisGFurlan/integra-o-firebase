@@ -30,72 +30,102 @@ class _HomePageState extends State<HomePage> {
   void botaoEntrar(String email, String senha) async {
     final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
 
-    if (!emailRegex.hasMatch(email)) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Erro',
-        titleColor: Colors.white,
-        text: 'Formato de email inválido.',
-        textColor: Colors.white,
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-        confirmBtnText: 'OK',
-        confirmBtnColor: const Color(0xFFdd90452),
-      );
-      return;
-    }
+    if (email.isEmpty) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Campo Obrigatório',
+      titleColor: Colors.white,
+      text: 'O campo de e-mail não pode estar vazio.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
 
-    if (senha.length < 6) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Erro',
-        titleColor: Colors.white,
-        text: 'A senha deve conter ao menos 6 dígitos.',
-        textColor: Colors.white,
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-        confirmBtnText: 'OK',
-        confirmBtnColor: const Color(0xFFdd90452),
-      );
-      return;
-    }
+  if (!emailRegex.hasMatch(email)) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'E-mail Inválido',
+      titleColor: Colors.white,
+      text: 'Digite um e-mail válido.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
 
-    try {
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: senha,
-      );
+  if (senha.isEmpty) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Campo Obrigatório',
+      titleColor: Colors.white,
+      text: 'O campo de senha não pode estar vazio.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
 
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const ImagePage()),
-        (Route<dynamic> route) => false,
-      );
-    } on FirebaseAuthException catch (_) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Erro',
-        titleColor: Colors.white,
-        text: 'Email ou senha incorretos.',
-        textColor: Colors.white,
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-        confirmBtnText: 'OK',
-        confirmBtnColor: const Color(0xFFdd90452),
-      );
-    } catch (e) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Erro',
-        titleColor: Colors.white,
-        text: 'Ocorreu um erro inesperado. Tente novamente.',
-        textColor: Colors.white,
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-        confirmBtnText: 'OK',
-        confirmBtnColor: const Color(0xFFdd90452),
-      );
-    }
+  if (senha.length < 6) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Senha Inválida',
+      titleColor: Colors.white,
+      text: 'A senha deve conter ao menos 6 caracteres.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+    return;
+  }
+
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: senha,
+    );
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const ImagePage()),
+      (Route<dynamic> route) => false,
+    );
+  } on FirebaseAuthException catch (_) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Falha na Autenticação',
+      titleColor: Colors.white,
+      text: 'E-mail ou senha incorretos.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+  } catch (e) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: 'Erro Inesperado',
+      titleColor: Colors.white,
+      text: 'Ocorreu um erro. Tente novamente mais tarde.',
+      textColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      confirmBtnText: 'OK',
+      confirmBtnColor: const Color(0xFFdd90452),
+    );
+  }
   }
 
   @override
